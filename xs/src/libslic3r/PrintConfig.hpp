@@ -404,6 +404,7 @@ class PrintConfig : public GCodeConfig
     ConfigOptionFloat               bridge_acceleration;
     ConfigOptionInt                 bridge_fan_speed;
     ConfigOptionFloat               brim_width;
+    ConfigOptionFloatOrPercent      brim_z_offset;
     ConfigOptionBool                complete_objects;
     ConfigOptionBool                cooling;
     ConfigOptionFloat               default_acceleration;
@@ -462,6 +463,8 @@ class PrintConfig : public GCodeConfig
         this->bridge_acceleration.value                          = 0;
         this->bridge_fan_speed.value                             = 100;
         this->brim_width.value                                   = 0;
+        this->brim_z_offset.value                                = 0;
+        this->brim_z_offset.percent                              = true;
         this->complete_objects.value                             = false;
         this->cooling.value                                      = true;
         this->default_acceleration.value                         = 0;
@@ -526,6 +529,7 @@ class PrintConfig : public GCodeConfig
         if (opt_key == "bridge_acceleration")                        return &this->bridge_acceleration;
         if (opt_key == "bridge_fan_speed")                           return &this->bridge_fan_speed;
         if (opt_key == "brim_width")                                 return &this->brim_width;
+        if (opt_key == "brim_z_offset")                              return &this->brim_z_offset;
         if (opt_key == "complete_objects")                           return &this->complete_objects;
         if (opt_key == "cooling")                                    return &this->cooling;
         if (opt_key == "default_acceleration")                       return &this->default_acceleration;

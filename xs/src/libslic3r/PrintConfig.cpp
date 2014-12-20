@@ -68,6 +68,13 @@ PrintConfigDef::build_def() {
     Options["brim_width"].cli = "brim-width=f";
     Options["brim_width"].min = 0;
 
+    Options["brim_z_offset"].type = coFloatOrPercent;
+    Options["brim_z_offset"].label = "Brim Z offset";
+    Options["brim_z_offset"].tooltip = "Print brim lower by this amount to squeeze it against the bed. This can improve print adhesion without compromising first layer height in actual object area. Can be either absolute value or percentage of first layer height. Typical values are 0 to 50%.";
+    Options["brim_z_offset"].sidetext = "mm or %";
+    Options["brim_z_offset"].cli = "brim-z-offset=s";
+    Options["brim_z_offset"].ratio_over = "first_layer_height";
+
     Options["complete_objects"].type = coBool;
     Options["complete_objects"].label = "Complete individual objects";
     Options["complete_objects"].tooltip = "When printing multiple objects or copies, this feature will complete each object before moving onto next one (and starting it from its bottom layer). This feature is useful to avoid the risk of ruined prints. Slic3r should warn and prevent you from extruder collisions, but beware.";

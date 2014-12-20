@@ -351,8 +351,23 @@ sub process_layer {
         $gcode .= $self->_gcodegen->set_extruder($self->print->regions->[0]->config->perimeter_extruder-1);
         $self->_gcodegen->set_origin(Slic3r::Pointf->new(0,0));
         $self->_gcodegen->avoid_crossing_perimeters->use_external_mp(1);
+
+        # Brim is a global setting while first_layer_height is per-object.
+        # Calculate percentages from the same value as was used for extruding
+        # the brim.
+        my $brim_z_offset = $self->print->config->get_abs_value_over('brim_z_offset', $self->print->skirt_first_layer_height);
+        my $orig_z = $layer->print_z + $self->print->config->z_offset;
+        if ($brim_z_offset != 0) {
+            $gcode .= $self->_gcodegen->writer->travel_to_z($orig_z - $brim_z_offset, 'brim z offset');
+        }
+
         $gcode .= $self->_gcodegen->extrude_loop($_, 'brim', $object->config->support_material_speed)
             for @{$self->print->brim};
+
+        if ($brim_z_offset != 0) {
+            $gcode .= $self->_gcodegen->writer->travel_to_z($orig_z, 'brim z offset ends');
+        }
+
         $self->_brim_done(1);
         $self->_gcodegen->avoid_crossing_perimeters->use_external_mp(0);
         $self->_gcodegen->avoid_crossing_perimeters->disable_once(1);

@@ -158,7 +158,8 @@ Print::invalidate_state_by_config_options(const std::vector<t_config_option_key>
             || *opt_key == "skirt_distance"
             || *opt_key == "min_skirt_length") {
             steps.insert(psSkirt);
-        } else if (*opt_key == "brim_width") {
+        } else if (*opt_key == "brim_width"
+            || *opt_key == "brim_z_offset") {
             steps.insert(psBrim);
             steps.insert(psSkirt);
         } else if (*opt_key == "nozzle_diameter") {
